@@ -7,6 +7,7 @@ templates = ["It was about (Number) (Measure of time) ago when I arrived at the 
 replacement_words = []
 chosen_template = ""
 
+#Take all words that should be changed
 def extract_key_words(template: str):
 	temp = []
 	results = []
@@ -18,29 +19,26 @@ def extract_key_words(template: str):
 			if len(temp) == 0 and i - start + 1 > 3:
 				results.append(template[start + 1: i])
 	return results
-	
+#Chnage input text + (ending)	
 def result_with_ending(changeable: str):
 	regex_start = r"[^(]+"
 	start_part = re.search(regex_start, changeable).group().strip()
 	end_regex = r" ([a-zA-Z]+)\)"
 	end_part = re.search(end_regex, changeable).group(1).strip()
 	return f"{start_part} + {end_part}"
-	
-def number_extract(number_to_be: float):
-	return float(number_to_be)
-	
-		
+
+#decide what to add 'a' or 'an'		
 def which_to_use(word: str):
 	vowels = ["a","e","i","o","u"]
 	if word[0].lower() in vowels:
 		return "an"
 	else:
 		return "a"
-
+#check if string contains number
 def is_digit_in_value(input_value):
-	#value = any(digit.isdigit() for digit in input_value)
 	return bool(re.search(r'\d', input_value))
-	
+
+#creates input text and check it for errors	
 def create_input_right(word: str):
 	result = word
 	if '(' in word and "ending in" in word:
@@ -49,18 +47,21 @@ def create_input_right(word: str):
 	input_value = input(f"Input {which_to_use(word)} {result}: ")
 	check_input_value(word, input_value)
 	return input_value
-	
+
+#check if string is float	
 def is_float(string):
     if string.replace(".", "").isnumeric():
         return True
     else:
         return False	
-		
+
+#check is string is digit		
 def is_value_number(input_value: str):
 	if is_float(input_value):
 		return True
 	return input_value.isdigit()
-	
+
+#check if entered value is supplying request	
 def check_input_value(word: str, input_value: str):
 	if len(input_value) == 0:
 		raise ValueError("Input should not be empty!!!")
@@ -76,7 +77,8 @@ def check_input_value(word: str, input_value: str):
 		raise ValueError("'{}' should not contain number!!!".format(input_value)) 
 	elif not "number" in word and is_digit_in_value(input_value):
 		raise ValueError("'{}' should not contain numbers!!!".format(input_value))
-	
+
+#main code	
 while True:
 	try:
 		template = int(input("Please, type number of story you want to interact with:\n1. Hospital affaire\n2. Weekend Camping\n3. Life in Castle\nYour choice: "))
