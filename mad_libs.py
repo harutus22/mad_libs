@@ -97,7 +97,7 @@ while count < len(words):
 		count = count + 1
 	except ValueError as ve:
 		print("Wrong value.", ve)
-#chosen_template = [chosen_template.replace(key, value, 1) for key, value in replacement_words]
+
 for item in replacement_words:
 	chosen_template = chosen_template.replace(item[0], item[1], 1)
 print(chosen_template)
